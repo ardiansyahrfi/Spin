@@ -747,15 +747,6 @@ winnerRemoveBtn.addEventListener("click", () => {
 
 // ---------- INIT ----------
 (function init() {
-  // default awal
-  entries = [
-    { label: "Marwah Lutfiah – XI DKV 3" },
-    { label: "Mohammad Jonah Setiawan – XI RPL 1" },
-    { label: "Alma Nurkaesih – XI DKV 2" },
-    { label: "Eisya Shafeera Irbah Hafeedzhah Oegin – XI DKV 1" },
-    { label: "May Nur Fajrima – XI DKV 3" },
-    { label: "Arkan Abdul Ghazwan – XI TFLM" }
-  ];
 
   loadFromStorage();
   updateTextareaFromEntries();
