@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spin Wheel Nama</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="logo">
+        <span>🎡</span>
+        <strong>Spinify</strong>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- KIRI: WHEEL -->
+    <section class="card wheel-card">
+      <div class="wheel-section">
+
+        <!-- HEADER WHEEL: TITLE + DESCRIPTION + EDIT -->
+        <div class="wheel-header">
+          <div>
+            <h2 id="wheelTitle" class="wheel-title">Wheel tanpa judul</h2>
+            <p id="wheelDescription" class="wheel-description"></p>
+          </div>
+          <button id="editTitleBtn" class="icon-btn" aria-label="Edit title">
+            ✏️
+          </button>
+        </div>
+
+        <div class="wheel-wrapper">
+          <canvas id="wheel" width="520" height="520"></canvas>
+          <img id="centerImage" class="center-image" alt="" />
+          <div class="pointer">▼</div>
+        </div>
+
+        <div class="wheel-controls">
+          <button id="spinBtn">SPIN</button>
+        </div>
+
+        <p id="result"></p>
+        <p id="stats">Total spin: 0</p>
+
+        <!-- 🔴 TOGGLE TAMPIL / HIDE POPUP PEMENANG -->
+        <label class="winner-toggle">
+          <input type="checkbox" id="showWinnerToggle" checked />
+          <span>Tampilkan popup pemenang</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- KANAN: PANEL ENTRIES / RESULTS -->
+    <section class="card side-panel">
+      <header class="side-panel__tabs">
+        <div class="tabs">
+          <button class="tab active" data-tab="entries">
+            Entries <span id="entriesCount" class="badge">(0)</span>
+          </button>
+          <button class="tab" data-tab="results">
+            Results <span id="resultsCount" class="badge">(0)</span>
+          </button>
+        </div>
+        <label class="hide-toggle">
+          <input type="checkbox" id="hidePanelToggle" />
+          <span>Hide</span>
+        </label>
+      </header>
+
+      <div class="side-panel__body">
+        <!-- ENTRIES VIEW -->
+        <div id="entriesView">
+          <div class="toolbar">
+            <button id="shuffleBtn" class="secondary">Shuffle</button>
+            <button id="sortEntriesBtn" class="secondary">Sort</button>
+
+            <div class="dropdown">
+              <button id="addImageBtn" class="secondary dropdown__trigger">
+                Add image ▾
+              </button>
+              <div class="dropdown__menu" id="addImageMenu">
+                <button data-mode="bg">Add background image</button>
+                <button data-mode="center">Add center image</button>
+                <button data-mode="entry">Add image as entry</button>
+              </div>
+            </div>
+          </div>
+
+
+          <textarea
+            id="entriesInput"
+            rows="10"
+            placeholder="Marwah Lutfiah – XI DKV 3&#10;Mohammad Jonah Setiawan – XI RPL 1&#10;..."
+          ></textarea>
+
+          <div class="entries-actions">
+            <button id="updateEntriesBtn">Update Wheel</button>
+            <button id="clearEntriesBtn" class="secondary">Clear</button>
+          </div>
+
+          <div class="hint-box">
+            <h3>Cara pakai</h3>
+            <ul>
+              <li>Isi nama lalu klik <strong>Update Wheel</strong>.</li>
+              <li>Tekan <strong>SPIN</strong> untuk mengacak pemenang.</li>
+              <li>Popup pemenang: <strong>Close</strong> atau <strong>Remove</strong>.</li>
+              <li>Semua data otomatis tersimpan di browser.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RESULTS VIEW -->
+        <div id="resultsView" class="hidden">
+          <div class="toolbar">
+            <button id="sortResultsBtn" class="secondary">Sort</button>
+            <button id="clearResultsBtn" class="secondary">Clear the list</button>
+          </div>
+
+          <div class="results-box">
+            <ul id="resultsList"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- input file untuk menu Add image -->
+      <input type="file" id="imageFileInput" accept="image/*" hidden />
+    </section>
+  </main>
+
+  <footer class="footer">
+    Spinify.
+  </footer>
+
+  <!-- MODAL EDIT TITLE/DESCRIPTION -->
+  <div class="title-modal-backdrop" id="titleModal">
+    <div class="title-modal">
+      <div class="title-modal__header">
+        <span>Edit title and description</span>
+      </div>
+      <div class="title-modal__body">
+        <label class="title-field">
+          <span>Title</span>
+          <input id="titleInput" type="text" />
+        </label>
+        <label class="title-field">
+          <span>Description</span>
+          <textarea id="descriptionInput" rows="3"></textarea>
+        </label>
+      </div>
+      <div class="title-modal__footer">
+        <button id="titleCancelBtn" class="secondary">Cancel</button>
+        <button id="titleOkBtn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WINNER MODAL -->
+  <div class="winner-modal-backdrop" id="winnerModal">
+    <div class="winner-modal">
+      <div class="winner-modal__header">
+        <span>We have a winner!</span>
+        <button class="close-modal-btn" id="closeWinnerModalBtn">×</button>
+      </div>
+      <div class="winner-modal__body">
+        <p id="winnerNameText"></p>
+      </div>
+      <div class="winner-modal__footer">
+        <button id="winnerCloseBtn" class="secondary">Cancel</button>
+        <button id="winnerRemoveBtn">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFETTI CANVAS -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
