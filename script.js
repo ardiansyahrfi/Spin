@@ -66,8 +66,13 @@ const showWinnerToggle = document.getElementById("showWinnerToggle");
 const confettiCanvas = document.getElementById("confettiCanvas");
 const confettiCtx = confettiCanvas.getContext("2d");
 
+// TOPBAR drawer (mobile)
+const topbarMenuToggle = document.getElementById("topbarMenuToggle");
+const topbarDrawer = document.getElementById("topbarDrawer");
+const topbarDrawerBackdrop = document.getElementById("topbarDrawerBackdrop");
+const topbarDrawerClose = document.getElementById("topbarDrawerClose");
+
 // ---------- AUDIO ----------
-// (bisa diganti link lain kalau mau)
 const bgAudio = new Audio(
   "https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f541f627a.mp3?filename=game-music-loop-113128.mp3"
 );
@@ -90,9 +95,7 @@ function stopBgAudio() {
   try {
     bgAudio.pause();
     bgAudio.currentTime = 0;
-  } catch (e) {
-    /* ignore */
-  }
+  } catch (e) {}
 }
 
 function playWinAudio() {
@@ -108,9 +111,7 @@ function stopWinAudio() {
   try {
     winAudio.pause();
     winAudio.currentTime = 0;
-  } catch (e) {
-    /* ignore */
-  }
+  } catch (e) {}
 }
 
 // warna sektor
@@ -126,13 +127,12 @@ const colors = [
 ];
 
 // ---------- STATE ----------
-// entries: { label: string, imageDataUrl?: string, image?: HTMLImageElement }
 let entries = [];
 let currentRotation = 0;
 let isSpinning = false;
 let totalSpins = 0;
 let lastWinnerIndex = null;
-let results = []; // {name, time}
+let results = [];
 let wheelTitle = "Wheel tanpa judul";
 let wheelDescription = "";
 let showWinnerPopup = true;
@@ -364,7 +364,13 @@ function drawWheel() {
       ctx.clip();
 
       const imgRadius = radius;
-      ctx.drawImage(entry.image, -imgRadius, -imgRadius, imgRadius * 2, imgRadius * 2);
+      ctx.drawImage(
+        entry.image,
+        -imgRadius,
+        -imgRadius,
+        imgRadius * 2,
+        imgRadius * 2
+      );
 
       ctx.restore();
       return;
@@ -641,7 +647,8 @@ spinBtn.addEventListener("click", () => {
   const spins = 5 * 360;
   const targetRotation = currentRotation + spins + randomExtra;
 
-  wheel.style.transition = "transform 4s cubic-bezier(0.25, 0.1, 0.1, 1)";
+  wheel.style.transition =
+    "transform 4s cubic-bezier(0.25, 0.1, 0.1, 1)";
   wheel.style.transform = `rotate(${targetRotation}deg)`;
 
   const onTransitionEnd = () => {
@@ -677,7 +684,7 @@ spinBtn.addEventListener("click", () => {
     playWinAudio();
     startConfetti(3500);
 
-    // 🔴 HANYA TAMPILKAN POPUP JIKA TOGGLE ON
+    // HANYA TAMPILKAN POPUP JIKA TOGGLE ON
     if (showWinnerPopup) {
       openWinnerModal(name, index);
     }
@@ -741,13 +748,48 @@ winnerRemoveBtn.addEventListener("click", () => {
   updateEntriesCount();
   saveToStorage();
 
-  showMessage(`🎉 Pemenang: ${removedName} (sudah dihapus dari wheel)`);
+  showMessage(
+    `🎉 Pemenang: ${removedName} (sudah dihapus dari wheel)`
+  );
   closeWinnerModal();
+});
+
+// ---------- TOPBAR DRAWER EVENTS (MOBILE) ----------
+function openTopbarDrawer() {
+  if (!topbarDrawer || !topbarDrawerBackdrop) return;
+  topbarDrawer.classList.add("open");
+  topbarDrawerBackdrop.classList.add("show");
+}
+
+function closeTopbarDrawer() {
+  if (!topbarDrawer || !topbarDrawerBackdrop) return;
+  topbarDrawer.classList.remove("open");
+  topbarDrawerBackdrop.classList.remove("show");
+}
+
+if (topbarMenuToggle) {
+  topbarMenuToggle.addEventListener("click", () => {
+    openTopbarDrawer();
+  });
+}
+
+if (topbarDrawerClose) {
+  topbarDrawerClose.addEventListener("click", closeTopbarDrawer);
+}
+
+if (topbarDrawerBackdrop) {
+  topbarDrawerBackdrop.addEventListener("click", closeTopbarDrawer);
+}
+
+// tutup drawer ketika salah satu item diklik
+document.querySelectorAll(".drawer-menu .drawer-item").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    closeTopbarDrawer();
+  });
 });
 
 // ---------- INIT ----------
 (function init() {
-
   loadFromStorage();
   updateTextareaFromEntries();
   drawWheel();

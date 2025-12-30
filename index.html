@@ -3,29 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spin Wheel Nama</title>
+  <title>Wheelofnames.com </title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar__inner">
-      <div class="logo">
-        <span>🎡</span>
-        <strong>Spinify</strong>
+      <!-- KIRI: LOGO + NAMA SITUS -->
+      <div class="topbar-left">
+        <div class="brand-logo">
+          <img src="./assets/logo.png" alt="spinify.app logo" />
+        </div>
+        <span class="brand-text">Wheelofnames.com</span>
       </div>
+
+      <!-- KANAN: MENU DESKTOP -->
+      <nav class="topbar-menu">
+        <button class="topbar-btn">
+          <span class="icon">🎨</span>
+          <span>Customize</span>
+        </button>
+        <button class="topbar-btn">
+          <span class="icon">📄</span>
+          <span>New</span>
+        </button>
+        <button class="topbar-btn">
+          <span class="icon">📁</span>
+          <span>Open</span>
+        </button>
+        <button class="topbar-btn">
+          <span class="icon">💾</span>
+          <span>Save</span>
+        </button>
+        <button class="topbar-btn">
+          <span class="icon">📤</span>
+          <span>Share</span>
+        </button>
+        <button class="topbar-btn">
+          <span class="icon">🔍</span>
+          <span>Gallery</span>
+        </button>
+        <button class="topbar-btn icon-only" aria-label="Fullscreen">
+          <span class="icon">⛶</span>
+        </button>
+        <button class="topbar-btn">
+          <span>More</span>
+          <span class="caret">▾</span>
+        </button>
+        <button class="topbar-btn">
+          <span class="icon">🌐</span>
+          <span>English</span>
+        </button>
+      </nav>
+
+      <!-- TOMBOL HAMBURGER (MOBILE) -->
+      <button
+        class="topbar-menu-toggle"
+        id="topbarMenuToggle"
+        aria-label="Buka menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
 
+  <!-- BACKDROP & DRAWER MENU (MOBILE) -->
+  <div class="topbar-drawer-backdrop" id="topbarDrawerBackdrop"></div>
+
+  <aside class="topbar-drawer" id="topbarDrawer">
+    <div class="drawer-header">
+      <span class="drawer-title">spinify.app</span>
+      <button
+        class="drawer-close"
+        id="topbarDrawerClose"
+        aria-label="Tutup menu"
+      >
+        ✕
+      </button>
+    </div>
+
+    <nav class="drawer-menu">
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">🎨</span>
+        <span>Customize</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">📄</span>
+        <span>New</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">📁</span>
+        <span>Open</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">💾</span>
+        <span>Save</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">📤</span>
+        <span>Share</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">🔍</span>
+        <span>Gallery</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">⛶</span>
+        <span>Fullscreen</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">⚙️</span>
+        <span>Preferences</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">🌐</span>
+        <span>Language</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">💬</span>
+        <span>Feedback</span>
+      </button>
+      <button type="button" class="drawer-item">
+        <span class="drawer-item-icon">❓</span>
+        <span>FAQ</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN LAYOUT: WHEEL + PANEL -->
   <main class="page">
     <!-- KIRI: WHEEL -->
     <section class="card wheel-card">
       <div class="wheel-section">
-
-        <!-- HEADER WHEEL: TITLE + DESCRIPTION + EDIT -->
+        <!-- HEADER WHEEL -->
         <div class="wheel-header">
           <div>
-            <h2 id="wheelTitle" class="wheel-title">Wheel tanpa judul</h2>
-            <p id="wheelDescription" class="wheel-description"></p>
+            <h2 id="wheelTitle" class="wheel-title">Untitled wheel</h2>
+            <p id="wheelDescription" class="wheel-description">
+              Click the wheel or press Ctrl + Enter to spin.
+            </p>
           </div>
           <button id="editTitleBtn" class="icon-btn" aria-label="Edit title">
             ✏️
@@ -35,20 +154,22 @@
         <div class="wheel-wrapper">
           <canvas id="wheel" width="520" height="520"></canvas>
           <img id="centerImage" class="center-image" alt="" />
-          <div class="pointer">▼</div>
+          <div class="pointer">▶</div>
         </div>
 
         <div class="wheel-controls">
-          <button id="spinBtn">SPIN</button>
+          <button id="spinBtn" class="primary-btn">
+            Click to spin
+          </button>
         </div>
 
         <p id="result"></p>
-        <p id="stats">Total spin: 0</p>
+        <p id="stats">Total spins: 0</p>
 
-        <!-- 🔴 TOGGLE TAMPIL / HIDE POPUP PEMENANG -->
+        <!-- TOGGLE TAMPIL / HIDE POPUP PEMENANG -->
         <label class="winner-toggle">
           <input type="checkbox" id="showWinnerToggle" checked />
-          <span>Tampilkan popup pemenang</span>
+          <span>Show winner popup</span>
         </label>
       </div>
     </section>
@@ -84,30 +205,42 @@
               <div class="dropdown__menu" id="addImageMenu">
                 <button data-mode="bg">Add background image</button>
                 <button data-mode="center">Add center image</button>
-                <button data-mode="entry">Add image as entry</button    >
+                <button data-mode="entry">Add image as entry</button>
               </div>
             </div>
           </div>
 
+          <p class="small">
+            Type one entry per line. Example: <em>Ali</em>,
+            <em>Beatriz</em>, <em>Charles</em>.
+          </p>
 
           <textarea
             id="entriesInput"
             rows="10"
-
+            placeholder="Ali&#10;Beatriz&#10;Charles&#10;Hanna&#10;..."
           ></textarea>
 
           <div class="entries-actions">
-            <button id="updateEntriesBtn">Update Wheel</button>
+            <button id="updateEntriesBtn">Update wheel</button>
             <button id="clearEntriesBtn" class="secondary">Clear</button>
           </div>
 
           <div class="hint-box">
-            <h3>Cara pakai</h3>
+            <h3>How it works</h3>
             <ul>
-              <li>Isi nama lalu klik <strong>Update Wheel</strong>.</li>
-              <li>Tekan <strong>SPIN</strong> untuk mengacak pemenang.</li>
-              <li>Popup pemenang: <strong>Close</strong> atau <strong>Remove</strong>.</li>
-              <li>Semua data otomatis tersimpan di browser.</li>
+              <li>
+                Edit the names, then click <strong>Update wheel</strong>.
+              </li>
+              <li>
+                Click <strong>Click to spin</strong> or press
+                <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
+              </li>
+              <li>
+                The winner appears in the popup and in the
+                <strong>Results</strong> tab.
+              </li>
+              <li>All data is stored locally in your browser.</li>
             </ul>
           </div>
         </div>
@@ -116,7 +249,9 @@
         <div id="resultsView" class="hidden">
           <div class="toolbar">
             <button id="sortResultsBtn" class="secondary">Sort</button>
-            <button id="clearResultsBtn" class="secondary">Clear the list</button>
+            <button id="clearResultsBtn" class="secondary">
+              Clear the list
+            </button>
           </div>
 
           <div class="results-box">
@@ -130,52 +265,205 @@
     </section>
   </main>
 
-  <footer class="footer">
-    Spinify.
-  </footer>
+  <!-- SECTION INFO BAWAH (3×3 CARD GRID) -->
+  <section class="info-section">
+    <div class="info-grid">
+      <!-- What is the wheel spinner for? -->
+      <article class="info-card" id="what-for">
+        <h3 class="info-title">
+          <span class="info-icon">🎯</span>
+          What is this wheel for?
+        </h3>
+        <p>People use Spinify every day in many different situations:</p>
+        <ul>
+          <li>Random name picker in the classroom.</li>
+          <li>Giveaways at events or live streams.</li>
+          <li>Team stand-ups to decide who goes first.</li>
+          <li>Quick decisions when no one can agree.</li>
+        </ul>
+        <a href="#how-to-use" class="info-link">How to use it in class →</a>
+      </article>
 
-  <!-- MODAL EDIT TITLE/DESCRIPTION -->
-  <div class="title-modal-backdrop" id="titleModal">
-    <div class="title-modal">
-      <div class="title-modal__header">
-        <span>Edit title and description</span>
-      </div>
-      <div class="title-modal__body">
-        <label class="title-field">
-          <span>Title</span>
-          <input id="titleInput" type="text" />
-        </label>
-        <label class="title-field">
-          <span>Description</span>
-          <textarea id="descriptionInput" rows="3"></textarea>
-        </label>
-      </div>
-      <div class="title-modal__footer">
-        <button id="titleCancelBtn" class="secondary">Cancel</button>
-        <button id="titleOkBtn">OK</button>
-      </div>
-    </div>
-  </div>
+      <!-- Is the wheel truly random? -->
+      <article class="info-card" id="randomness">
+        <h3 class="info-title">
+          <span class="info-icon">🎲</span>
+          Is the wheel truly random?
+        </h3>
+        <p>
+          Each spin uses a random starting angle combined with a random
+          spin distance. The values are generated in JavaScript using a
+          pseudo-random number generator built into the browser.
+        </p>
+        <p>
+          For most classroom or party use-cases this is more than enough
+          to feel fair and unpredictable.
+        </p>
+        <button class="info-button" type="button">
+          Run 10,000 spins (demo)
+        </button>
+      </article>
 
-  <!-- WINNER MODAL -->
-  <div class="winner-modal-backdrop" id="winnerModal">
-    <div class="winner-modal">
-      <div class="winner-modal__header">
-        <span>We have a winner!</span>
-        <button class="close-modal-btn" id="closeWinnerModalBtn">×</button>
-      </div>
-      <div class="winner-modal__body">
-        <p id="winnerNameText"></p>
-      </div>
-      <div class="winner-modal__footer">
-        <button id="winnerCloseBtn" class="secondary">Cancel</button>
-        <button id="winnerRemoveBtn">Remove</button>
-      </div>
+      <!-- Can I close the ads? -->
+      <article class="info-card" id="ads">
+        <h3 class="info-title">
+          <span class="info-icon">📺</span>
+          Can I close the ads?
+        </h3>
+        <p>
+          The original wheelofnames site uses ads to stay free for
+          everyone. Spinify is a self-hosted demo, so there are no ads
+          on this page.
+        </p>
+        <p>
+          If you host your own copy, you can choose to add banners,
+          remove them completely, or integrate your own sponsors.
+        </p>
+      </article>
+
+      <!-- How to use the wheel spinner -->
+      <article class="info-card" id="how-to-use">
+        <h3 class="info-title">
+          <span class="info-icon">📘</span>
+          How to use the wheel
+        </h3>
+        <ol class="info-list-ol">
+          <li>
+            Enter each option on its own line in the
+            <strong>Entries</strong> tab.
+          </li>
+          <li>Click <strong>Update wheel</strong>.</li>
+          <li>
+            Press <strong>Click to spin</strong> or
+            <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
+          </li>
+          <li>
+            Use the <strong>Results</strong> tab to see previous winners.
+          </li>
+        </ol>
+        <a href="#" class="info-link">Video tutorials (coming soon)</a>
+      </article>
+
+      <!-- Activity stats -->
+      <article class="info-card info-card-dark" id="activity">
+        <h3 class="info-title">
+          <span class="info-icon">📊</span>
+          Activity in 2025
+        </h3>
+        <div class="stats-block">
+          <div>
+            <div class="stats-label">Wheel spins</div>
+            <div class="stats-value">1,461,979,170</div>
+          </div>
+          <div>
+            <div class="stats-label">Hours of spinning</div>
+            <div class="stats-value">4,061,053</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Is my data private? -->
+      <article class="info-card" id="privacy">
+        <h3 class="info-title">
+          <span class="info-icon">🔒</span>
+          Is my data private?
+        </h3>
+        <p>
+          In this demo, everything is stored locally in
+          <code>localStorage</code>. That means:
+        </p>
+        <ul>
+          <li>Your entries never leave your browser.</li>
+          <li>Clearing your browser data also clears the wheel.</li>
+          <li>You can fork this project and save data to your own server.</li>
+        </ul>
+        <a href="#" class="info-link">How we protect your data →</a>
+      </article>
+
+      <!-- Discord bot -->
+      <article class="info-card" id="discord">
+        <h3 class="info-title">
+          <span class="info-icon">💬</span>
+          Try our Discord bot
+        </h3>
+        <p>
+          Hook Spinify into your Discord server to pick winners directly
+          from chat or voice channels.
+        </p>
+        <ul>
+          <li>Spin with members in a voice channel.</li>
+          <li>Spin among users with a specific role.</li>
+          <li>Spin using entries sent in a message.</li>
+        </ul>
+        <button class="info-button" type="button">Add the Discord bot</button>
+      </article>
     </div>
-  </div>
+  </section>
 
   <!-- CONFETTI CANVAS -->
   <canvas id="confettiCanvas"></canvas>
+
+  <!-- MODAL EDIT TITLE -->
+  <div class="title-modal-backdrop" id="titleModal">
+    <div class="title-modal">
+      <div class="title-modal__header">Edit wheel title</div>
+      <div class="title-modal__body">
+        <div class="title-field">
+          <span>Title</span>
+          <input id="titleInput" type="text" />
+        </div>
+        <div class="title-field">
+          <span>Description</span>
+          <textarea id="descriptionInput" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="title-modal__footer">
+        <button class="secondary" id="titleCancelBtn">Cancel</button>
+        <button id="titleOkBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL WINNER -->
+  <div class="winner-modal-backdrop" id="winnerModal">
+    <div class="winner-modal">
+      <div class="winner-modal__header">
+        <span>Winner</span>
+        <button class="close-modal-btn" id="winnerCloseBtn">✕</button>
+      </div>
+      <div class="winner-modal__body">
+        <p id="winnerNameText">Winner name</p>
+      </div>
+      <div class="winner-modal__footer">
+        <button class="secondary" id="winnerRemoveBtn">
+          Remove from wheel
+        </button>
+        <button id="closeWinnerModalBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="footer-logo">🎡</span>
+        <span class="footer-brand">Wheelofnames.com</span>
+        <span class="footer-version">v1.0</span>
+      </div>
+
+      <nav class="footer-links">
+        <a href="#">Terms &amp; conditions</a>
+        <a href="#">FAQ</a>
+        <a href="#">Discord server</a>
+        <a href="#">API</a>
+        <a href="#">Streaming</a>
+        <a href="#">Privacy policy</a>
+        <a href="#">Feedback</a>
+        <a href="#">Discord bot</a>
+      </nav>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
