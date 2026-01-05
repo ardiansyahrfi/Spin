@@ -442,6 +442,46 @@
       </div>
     </div>
   </div>
+    <!-- AREA RAHASIA UNTUK BUKA MENU PRIVATE (pojok kiri bawah) -->
+  <div id="secretArea" class="secret-area" aria-hidden="true"></div>
+
+  <!-- PANEL PRIVATE WINNER -->
+  <div id="privatePanel" class="private-panel">
+    <div class="private-panel__inner">
+      <div class="private-panel__header">
+        <span>Private controls</span>
+        <button type="button" class="private-close-btn" id="privateCloseBtn">✕</button>
+      </div>
+      <div class="private-panel__body">
+        <label class="private-field">
+          <span>Mode</span>
+          <select id="privateModeSelect">
+            <option value="normal">Normal (acak biasa)</option>
+            <option value="force">Pilih pemenang tertentu</option>
+          </select>
+        </label>
+
+        <label class="private-field">
+          <span>Pemenang yang diinginkan</span>
+          <input
+            id="privateWinnerInput"
+            type="text"
+            placeholder="Ketik persis salah satu nama di wheel"
+          />
+          <p class="private-help">
+            Tidak case-sensitive, tapi ejaannya harus sama dengan yang di Entries.
+          </p>
+        </label>
+
+        <p class="private-status" id="privateStatus"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    ...
+
 
   <!-- FOOTER -->
   <footer class="footer">

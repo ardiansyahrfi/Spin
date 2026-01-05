@@ -1022,4 +1022,112 @@ button:disabled {
   .footer-links {
     justify-content: flex-start;
   }
+}/* ========== PRIVATE MENU & SECRET AREA ========== */
+
+/* area rahasia di pojok kiri bawah (tak terlihat) */
+.secret-area {
+  position: fixed;
+  left: 8px;
+  bottom: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  /* tidak ada background supaya benar-benar invisible */
+  z-index: 50;
 }
+
+/* panel private */
+.private-panel {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 60;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.private-panel.show {
+  display: flex;
+}
+
+.private-panel__inner {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 10px 12px;
+  border-radius: 18px;
+  background: #020617;
+  border: 1px solid #1f2937;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+  color: #e5e7eb;
+  overflow: hidden;
+}
+
+.private-panel__header {
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  background: #111827;
+}
+
+.private-close-btn {
+  background: transparent;
+  border-radius: 999px;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: none;
+  color: #e5e7eb;
+}
+
+.private-close-btn:hover {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.private-panel__body {
+  padding: 12px 14px 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.private-field span {
+  display: block;
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 4px;
+}
+
+#privateModeSelect,
+#privateWinnerInput {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+  background: #020617;
+  color: #e5e7eb;
+  padding: 7px 9px;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+#privateModeSelect:focus,
+#privateWinnerInput:focus {
+  outline: 1px solid #2563eb;
+}
+
+.private-help {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 3px;
+}
+
+.private-status {
+  font-size: 12px;
+  color: #a7f3d0;
+  min-height: 16px;
+}
+

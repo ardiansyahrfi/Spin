@@ -631,6 +631,36 @@ imageFileInput.addEventListener("change", () => {
   reader.readAsDataURL(file);
 });
 
+// ---------- FUNGSI BANTU PRIVATE WINNER ----------
+function setForcedWinnerFromInput(input) {
+  if (!entries.length) {
+    alert("Belum ada nama di wheel 🙂");
+    return;
+  }
+
+  const trimmed = (input || "").trim();
+  if (!trimmed) return;
+
+  let idx = -1;
+  const num = parseInt(trimmed, 10);
+
+  if (!isNaN(num)) {
+    idx = num - 1;
+  } else {
+    idx = entries.findIndex(
+      (e) => (e.label || "").toLowerCase() === trimmed.toLowerCase()
+    );
+  }
+
+  if (idx < 0 || idx >= entries.length) {
+    alert("Nama / nomor tidak ditemukan di entries.");
+    return;
+  }
+
+  forcedWinnerIndex = idx;
+  showMessage("Mode spin khusus aktif.");
+}
+
 // ---------- PRIVATE WINNER SHORTCUTS ----------
 // Ctrl + Shift + P  -> set pemenang rahasia
 // Ctrl + Shift + R  -> reset mode khusus
@@ -641,35 +671,12 @@ document.addEventListener("keydown", (e) => {
 
   // set winner
   if (key === "p") {
-    if (!entries.length) {
-      alert("Belum ada nama di wheel 🙂");
-      return;
-    }
-
     const input = prompt(
       "Ketik nama persis ATAU nomor urutan (1,2,3,...) yang ingin kamu menangkan:",
       ""
     );
     if (!input) return;
-
-    let idx = -1;
-    const num = parseInt(input, 10);
-    if (!isNaN(num)) {
-      idx = num - 1;
-    } else {
-      idx = entries.findIndex(
-        (e) => e.label.toLowerCase() === input.toLowerCase()
-      );
-    }
-
-    if (idx < 0 || idx >= entries.length) {
-      alert("Nama / nomor tidak ditemukan di entries.");
-      return;
-    }
-
-    forcedWinnerIndex = idx;
-    // Pesan dibuat netral, tidak nyebut nama siapa
-    showMessage("Mode spin khusus aktif.");
+    setForcedWinnerFromInput(input);
   }
 
   // reset winner mode
@@ -702,24 +709,26 @@ spinBtn.addEventListener("click", () => {
     entries.length >= 2;
 
   if (canForce) {
+    // hitung sudut supaya winner pasti sektor forcedWinnerIndex
     const sliceDeg = 360 / entries.length;
-    const min = forcedWinnerIndex * sliceDeg;
-    const max = (forcedWinnerIndex + 1) * sliceDeg;
-    const center = min + sliceDeg / 2;
+    const center = forcedWinnerIndex * sliceDeg + sliceDeg / 2;
 
-    let targetNormalized =
-      center + (Math.random() - 0.5) * (sliceDeg * 0.6);
+    // jitter kecil di dalam sektor (biar kelihatan random, tapi tetap aman)
+    const jitter = (Math.random() - 0.5) * (sliceDeg * 0.4);
+    let normalized = center + jitter;
 
-    const margin = sliceDeg * 0.15;
-    if (targetNormalized < min + margin) targetNormalized = min + margin;
-    if (targetNormalized > max - margin) targetNormalized = max - margin;
+    const minN = forcedWinnerIndex * sliceDeg + sliceDeg * 0.2;
+    const maxN = (forcedWinnerIndex + 1) * sliceDeg - sliceDeg * 0.2;
+    if (normalized < minN) normalized = minN;
+    if (normalized > maxN) normalized = maxN;
 
-    const baseAngle =
-      (360 - (targetNormalized % 360) + 360) % 360;
+    // getWinner pakai: normalized = (360 - (angle % 360)) % 360
+    // jadi angle % 360 harus = (360 - normalized) % 360
+    const targetMod = (360 - (normalized % 360) + 360) % 360;
+
+    const baseMod = ((currentRotation % 360) + 360) % 360;
     const extraTurns = 5 * 360;
-    const currentMod =
-      ((currentRotation % 360) + 360) % 360;
-    const delta = (baseAngle - currentMod + 360) % 360;
+    const delta = (targetMod - baseMod + 360) % 360;
 
     targetRotation = currentRotation + extraTurns + delta;
   } else {
@@ -884,11 +893,13 @@ document.querySelectorAll(".drawer-menu .drawer-item").forEach((btn) => {
   renderTitle();
   showMessage("Silakan edit daftar nama, lalu klik SPIN.");
 })();
+
+// ---------- BRAND LOGO SECRET TRIPLE CLICK ----------
 const brandLogo = document.querySelector(".brand-logo");
 let secretClickCount = 0;
 let secretClickTimer = null;
 
-brandLogo.addEventListener("click", () => {
+function handleSecretLogoTap() {
   secretClickCount++;
 
   if (secretClickTimer) clearTimeout(secretClickTimer);
@@ -899,14 +910,21 @@ brandLogo.addEventListener("click", () => {
 
   if (secretClickCount >= 3) {
     secretClickCount = 0;
-
     const name = prompt(
       "Private Mode\n\nMasukkan nama atau nomor urut pemenang:"
     );
-
     if (!name) return;
-
     setForcedWinnerFromInput(name);
   }
-});
+}
 
+if (brandLogo) {
+  // click biasa (desktop)
+  brandLogo.addEventListener("click", handleSecretLogoTap);
+
+  // di HP: pakai touchend + preventDefault supaya tidak double-tap zoom
+  brandLogo.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    handleSecretLogoTap();
+  });
+}
